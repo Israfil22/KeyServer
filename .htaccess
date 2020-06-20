@@ -1,0 +1,37 @@
+Options -Indexes
+
+DirectoryIndex index.php index.html index.htm welcome.html
+
+ErrorDocument 401 /system/unknown.html
+ErrorDocument 402 /system/unknown.html
+ErrorDocument 403 /system/403.html
+ErrorDocument 404 /system/404.html
+ErrorDocument 500 /system/unknown.html
+
+<FilesMatch ".*\.(htaccess|txt|json)$">
+    Deny from all
+</FilesMatch>
+
+# DISABLE CACHING
+
+<IfModule mod_headers.c>
+    Header always set Cache-Control "no-cache, no-store, must-revalidate"
+    Header always set Pragma "no-cache"
+    Header always set Expires 0
+</IfModule>
+
+<FilesMatch "\.(php|css|flv|gif|htm|html|ico|jpe|jpeg|jpg|js|mp3|mp4|png|pdf|swf|txt)$">
+    <IfModule mod_expires.c>
+        ExpiresActive Off
+    </IfModule>
+    <IfModule mod_headers.c>
+        FileETag None
+        Header always unset ETag
+        Header always unset Pragma
+        Header always unset Cache-Control
+        Header always unset Last-Modified
+        Header always set Pragma "no-cache"
+        Header always set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+        Header always set Expires "Thu, 1 Jan 1970 00:00:00 GMT"
+    </IfModule>
+</FilesMatch>
